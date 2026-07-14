@@ -1,149 +1,63 @@
 import streamlit as st
-import pandas as pd
-import joblib
 
 # ----------------------------
-# LOAD MODEL
+# PAGE SETTINGS
 # ----------------------------
-model = joblib.load("models/cardiosense_model.pkl")
-scaler = joblib.load("models/scaler.pkl")
-label_encoders = joblib.load("models/label_encoders.pkl")
+
+st.set_page_config(
+    page_title="Heart Disease Prediction",
+    page_icon="🩺",
+    layout="wide"
+)
+
+# ----------------------------
+# TITLE
+# ----------------------------
+
 st.title("🩺 Heart Disease Prediction")
 
+st.markdown("""
+This page is under testing.
+
+If this page loads successfully in Streamlit Cloud, then the deployment issue is NOT in the page itself. We can then test the ML model files separately.
+""")
+
 # ----------------------------
-# INPUTS
+# TEST MESSAGE
 # ----------------------------
 
-age = st.number_input("Age", 18, 100, 45)
+st.success("✅ Prediction page loaded successfully!")
 
-sex = st.selectbox(
+# ----------------------------
+# TEMPORARY TEST INPUTS
+# ----------------------------
+
+age = st.number_input(
+    "Age",
+    min_value=18,
+    max_value=100,
+    value=45
+)
+
+gender = st.selectbox(
     "Gender",
     ["Male", "Female"]
 )
 
-dataset = st.selectbox(
-    "Hospital Dataset",
-    [
-        "Cleveland",
-        "Hungary",
-        "Switzerland",
-        "VA Long Beach"
-    ]
+bp = st.number_input(
+    "Blood Pressure",
+    min_value=80,
+    max_value=250,
+    value=120
 )
 
-cp = st.selectbox(
-    "Chest Pain Type",
-    [
-        "typical angina",
-        "atypical angina",
-        "non-anginal",
-        "asymptomatic"
-    ]
-)
-
-trestbps = st.number_input(
-    "Resting Blood Pressure",
-    80,
-    250,
-    120
-)
-
-chol = st.number_input(
-    "Cholesterol",
-    100,
-    600,
-    200
-)
-
-fbs = st.selectbox(
-    "Fasting Blood Sugar",
-    [True, False]
-)
-
-restecg = st.selectbox(
-    "ECG Result",
-    [
-        "normal",
-        "lv hypertrophy",
-        "st-t abnormality"
-    ]
-)
-
-thalch = st.number_input(
-    "Maximum Heart Rate",
-    60,
-    220,
-    150
-)
-
-exang = st.selectbox(
-    "Exercise Induced Angina",
-    [True, False]
-)
-
-oldpeak = st.number_input(
-    "Old Peak",
-    0.0,
-    10.0,
-    1.0
-)
-
-slope = st.selectbox(
-    "Slope",
-    [
-        "upsloping",
-        "flat",
-        "downsloping"
-    ]
-)
+st.write("Age :", age)
+st.write("Gender :", gender)
+st.write("Blood Pressure :", bp)
 
 # ----------------------------
-# PREDICT
+# TEST BUTTON
 # ----------------------------
 
-if st.button("❤️ Predict Disease"):
-
-    patient = pd.DataFrame({
-
-        "age":[age],
-        "sex":[sex],
-        "dataset":[dataset],
-        "cp":[cp],
-        "trestbps":[trestbps],
-        "chol":[chol],
-        "fbs":[fbs],
-        "restecg":[restecg],
-        "thalch":[thalch],
-        "exang":[exang],
-        "oldpeak":[oldpeak],
-        "slope":[slope]
-
-    })
-
-    # Encode categorical columns
-    categorical_columns = [
-        "sex",
-        "dataset",
-        "cp",
-        "restecg",
-        "slope"
-    ]
-
-    for col in categorical_columns:
-        patient[col] = label_encoders[col].transform(patient[col])
-
-    # Scale
-    patient_scaled = scaler.transform(patient)
-
-    # Prediction
-    prediction = model.predict(patient_scaled)[0]
-
-    labels = {
-        0: "🟢 Healthy",
-        1: "🟡 Mild Heart Disease",
-        2: "🟠 Moderate Heart Disease",
-        3: "🔴 Severe Heart Disease",
-        4: "🚨 Very Severe Heart Disease"
-    }
-
-    st.success(f"Prediction : {labels[prediction]}")
+if st.button("Test Prediction Page"):
+    st.success("🎉 Prediction page is working correctly!")
