@@ -21,4 +21,3 @@ UCI Heart Disease Dataset
 
 ## Live Demo
 https://cardiosense-ai-1-tn4m.onrender.com
-
