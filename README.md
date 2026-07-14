@@ -18,6 +18,3 @@ AI-powered Heart Disease Severity Prediction System built using Machine Learning
 
 ## Dataset
 UCI Heart Disease Dataset
-
-## Live Demo
-https://YOUR-RENDER-LINK.onrender.com
